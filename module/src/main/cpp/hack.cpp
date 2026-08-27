@@ -17,6 +17,8 @@
 #include <linux/unistd.h>
 #include <array>
 
+extern "C" void install_bullet_recorder();   // ★改动1：顶部声明
+
 void hack_start(const char *game_data_dir) {
     bool load = false;
     for (int i = 0; i < 10; i++) {
@@ -24,6 +26,7 @@ void hack_start(const char *game_data_dir) {
         if (handle) {
             load = true;
             il2cpp_api_init(handle);
+            install_bullet_recorder();       // ★改动2：在这里启动记录 hook
             il2cpp_dump(game_data_dir);
             break;
         } else {
@@ -75,7 +78,7 @@ std::string GetLibDir(JavaVM *vms) {
                 LOGE("application class not found");
             }
         } else {
-            LOGE("currentApplication not found");
+            LOGE("ActivityThread not found");
         }
     } else {
         LOGE("ActivityThread not found");
